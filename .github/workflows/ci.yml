@@ -1,0 +1,20 @@
+name: CI-kupferbootstrap
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Archlinux
+      run: curl -L https://github.com/zaoqi/github-actions-archlinux/raw/master/install.sh | sh
+    - name: Docker with kupferbootstrap hello-world
+      run: |
+        pacman -S python docker docker-buildx git --needed --noconfirm
+        sudo usermod -aG docker "$(whoami)"
+        git clone -b dev https://gitlab.com/kupfer/kupferbootstrap
+        cd kupferbootstrap
+        pip3 install -r requirements.txt
+        sudo ln -s "$(pwd)/bin/kupferbootstrap" /usr/local/bin/
+        kupferbootstrap -V
