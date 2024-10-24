@@ -1,16 +1,21 @@
-name: CI
+name: CI-kupferbootstrap
 
 on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v1
     - name: Install Archlinux
       run: curl -L https://github.com/zaoqi/github-actions-archlinux/raw/master/install.sh | sh
     - name: Docker hello-world
       run: |
-        sudo pacman --noconfirm -Syu docker
-        sudo systemctl start docker
-        docker run --rm hello-world
+        pacman -S python docker git --needed --noconfirm
+        sudo usermod -aG docker "$(whoami)"
+        git clone -b dev https://gitlab.com/kupfer/kupferbootstrap
+        cd kupferbootstrap
+        pip3 install -r requirements.txt
+        sudo ln -s "$(pwd)/bin/kupferbootstrap" /usr/local/bin/
+        kupferbootstrap -V
+        
