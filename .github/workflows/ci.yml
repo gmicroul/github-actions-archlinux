@@ -1,6 +1,16 @@
 name: CI-kupferbootstrap
 
-on: [push]
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      set_flavour:
+        description: "flavour"
+        required: true
+        default: "phosh"
+  
+env:
+  TZ: Asia/Shanghai
 
 jobs:
   build:
