@@ -22,9 +22,9 @@ jobs:
     - name: Docker with kupferbootstrap hello-world
       run: |
         pacman -S python docker docker-buildx git --needed --noconfirm
-        sudo usermod -aG docker "$(whoami)"
+        usermod -aG docker "$(whoami)"
         git clone -b dev https://gitlab.com/kupfer/kupferbootstrap
         cd kupferbootstrap
         pip3 install -r requirements.txt
-        sudo ln -s "$(pwd)/bin/kupferbootstrap" /usr/local/bin/
+        ln -s "$(pwd)/bin/kupferbootstrap" /usr/local/bin/
         kupferbootstrap -V
